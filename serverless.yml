@@ -1,0 +1,25 @@
+service: car-reseller-service
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: dev
+  region: us-east-1
+
+functions:
+  api:
+    handler: dist/main.handler
+    events:
+      - http:
+          path: /{proxy+}
+          method:   ANY
+          cors: true
+
+plugins:
+  -serverless-plugin-typescript
+  - serverless-offline
+
+custom:
+  webpack:
+    webpackConfig: webpack.config.js
+    includesModules: true
